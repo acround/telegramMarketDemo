@@ -1,0 +1,10 @@
+services:
+  bot:
+    build: .
+    container_name: REA_Shop_demo_bot
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - DB_PATH=/data/store.db
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
