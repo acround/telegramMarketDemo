@@ -9,3 +9,6 @@ if not BOT_TOKEN:
         "  docker run -e BOT_TOKEN=... ...\n"
         "или прописать её в docker-compose.yml/.env."
     )
+
+# Параметры каталога
+PAGE_SIZE = 3

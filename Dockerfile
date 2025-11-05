@@ -1,20 +1,23 @@
+# Используем официальный образ Python
 FROM python:3.11-slim
 
-# Чтобы Python не буферизовал вывод (логи сразу в консоль Docker)
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
+# Установка зависимостей
+RUN apt-get update && apt-get install -y     build-essential     libsqlite3-dev     && rm -rf /var/lib/apt/lists/*
 
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Устанавливаем зависимости
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Копируем исходники бота
+# Копируем все файлы проекта
 COPY . .
 
-# По умолчанию база лежит в /data/store.db (мы пробросим эту папку как volume)
-ENV DB_PATH=/data/store.db
+# Устанавливаем зависимости
+RUN pip install --no-cache-dir -r requirements.txt || true
 
-# Точка входа — main.py
-CMD ["python", "-u", "main.py"]
+# Устанавливаем python-telegram-bot, если не указан в requirements
+RUN pip install --no-cache-dir python-telegram-bot==13.15 telebot
+
+# Открываем порт (если нужно)
+EXPOSE 8080
+
+# Команда запуска
+CMD ["python", "main.py"]

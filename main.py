@@ -6,9 +6,7 @@ from datetime import datetime
 
 def notif_scheduler(bot):
     """Простой планировщик отправки уведомлений (если они есть)."""
-    print("Планировщик уведомлений запущен.")
     while True:
-        print("Планировщик уведомлений: проверка…")
         try:
             due = Admin_bot.fetch_due_notifications(datetime.utcnow())
             for n in due:
